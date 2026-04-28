@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="KADER Construction Métallique - Platform de Gestion Chantier BTP">
+    <meta name="keywords" content="Kader CM, Gestion Chantier, BTP, Jorf Lasfar">
+    <meta name="author" content="Kader Construction Métallique">
+    <title>🏗️ KADER CM - Gestion Chantier BTP</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏗️%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Screen -->
+        <div id="loginScreen" class="screen active">
+            <div class="login-container">
+                <div class="login-card">
+                    <div class="logo">
+                        <div class="logo-icon">🏗️</div>
+                        <h1>KADER CM</h1>
+                        <p>Construction Métallique</p>
+                        <small>Jorf Lasfar</small>
+                    </div>
+                    
+                    <form id="loginForm" class="form">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="emailInput" placeholder="email@kader.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Mot de passe</label>
+                            <input type="password" id="passwordInput" placeholder="••••••••" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Connexion</button>
+                        
+                        <div class="demo-accounts">
+                            <p>Comptes démo:</p>
+                            <small>👤 admin@kader.com / admin123</small><br>
+                            <small>👷 employe@kader.com / emp123</small>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App -->
+        <div id="mainApp" class="screen">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h2>🏗️ KADER CM</h2>
+                </div>
+                
+                <nav class="nav">
+                    <a href="#" class="nav-item active" data-screen="dashboard">
+                        <span class="icon">📊</span>
+                        <span>Tableau de bord</span>
+                    </a>
+                    <a href="#" class="nav-item" data-screen="employes">
+                        <span class="icon">👷</span>
+                        <span>Employés</span>
+                    </a>
+                    <a href="#" class="nav-item" data-screen="habilitations">
+                        <span class="icon">📋</span>
+                        <span>Habilitations</span>
+                    </a>
+                    <a href="#" class="nav-item" data-screen="engins">
+                        <span class="icon">🚜</span>
+                        <span>Engins</span>
+                    </a>
+                    <a href="#" class="nav-item" data-screen="sous-traitants">
+                        <span class="icon">🤝</span>
+                        <span>Sous-traitants</span>
+                    </a>
+                    <a href="#" class="nav-item" data-screen="acces">
+                        <span class="icon">🔑</span>
+                        <span>Accès & Badges</span>
+                    </a>
+                    <a href="#" class="nav-item" data-screen="export">
+                        <span class="icon">📥</span>
+                        <span>Export</span>
+                    </a>
+                </nav>
+                
+                <div class="sidebar-footer">
+                    <button id="logoutBtn" class="btn btn-secondary">
+                        <span>🚪</span> Déconnexion
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Content Area -->
+            <main class="main-content">
+                <!-- Header -->
+                <header class="header">
+                    <div class="header-title">
+                        <h1 id="pageTitle">Tableau de bord</h1>
+                    </div>
+                    <div class="header-actions">
+                        <span id="userInfo" class="user-info">Admin</span>
+                    </div>
+                </header>
+
+                <!-- Content -->
+                <div class="content">
+                    <!-- Dashboard -->
+                    <section id="dashboard" class="page active">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">👷</div>
+                                <div class="stat-info">
+                                    <h3>Employés</h3>
+                                    <p id="employeCount" class="stat-number">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">📋</div>
+                                <div class="stat-info">
+                                    <h3>Habilitations</h3>
+                                    <p id="habCount" class="stat-number">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">🚜</div>
+                                <div class="stat-info">
+                                    <h3>Engins</h3>
+                                    <p id="enginCount" class="stat-number">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">⚠️</div>
+                                <div class="stat-info">
+                                    <h3>Alertes</h3>
+                                    <p id="alertCount" class="stat-number">0</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-grid">
+                            <div class="card">
+                                <h3>🔔 Alertes Habilitations Expirées</h3>
+                                <div id="alertsList" class="alerts-list">
+                                    <p class="empty">Aucune alerte</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <h3>👷 Derniers Employés Ajoutés</h3>
+                                <div id="recentEmployes" class="recent-list">
+                                    <p class="empty">Aucun employé</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Employés -->
+                    <section id="employes" class="page">
+                        <div class="page-header">
+                            <h2>Gestion des Employés</h2>
+                            <button class="btn btn-primary" id="addEmployeBtn">➕ Ajouter</button>
+                        </div>
+
+                        <div class="search-filter">
+                            <input type="text" id="searchEmploye" placeholder="Rechercher...">
+                            <select id="filterPoste">
+                                <option value="">Tous les postes</option>
+                                <option value="Soudeur">Soudeur</option>
+                                <option value="Monteur">Monteur</option>
+                                <option value="Opérateur">Opérateur</option>
+                                <option value="HSE">HSE</option>
+                                <option value="Chef">Chef d'équipe</option>
+                            </select>
+                        </div>
+
+                        <div id="employesTable" class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        <th>CIN</th>
+                                        <th>Poste</th>
+                                        <th>Téléphone</th>
+                                        <th>Documents</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="employesList">
+                                    <tr><td colspan="8" class="empty">Aucun employé</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Habilitations -->
+                    <section id="habilitations" class="page">
+                        <div class="page-header">
+                            <h2>Habilitations & Certifications</h2>
+                            <button class="btn btn-primary" id="addHabBtn">➕ Ajouter</button>
+                        </div>
+
+                        <div class="search-filter">
+                            <input type="text" id="searchHab" placeholder="Rechercher...">
+                            <select id="filterHabType">
+                                <option value="">Tous les types</option>
+                                <option value="Permis feu">Permis feu</option>
+                                <option value="Travail en hauteur">Travail en hauteur</option>
+                                <option value="CACES">CACES</option>
+                                <option value="Habilitation électrique">Habilitation électrique</option>
+                                <option value="Espace confiné">Espace confiné</option>
+                            </select>
+                        </div>
+
+                        <div id="habitationsTable" class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Employé</th>
+                                        <th>Type</th>
+                                        <th>Date Délivrance</th>
+                                        <th>Date Expiration</th>
+                                        <th>Organisme</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="habsList">
+                                    <tr><td colspan="7" class="empty">Aucune habilitation</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Engins -->
+                    <section id="engins" class="page">
+                        <div class="page-header">
+                            <h2>Engins & Machines</h2>
+                            <button class="btn btn-primary" id="addEnginBtn">➕ Ajouter</button>
+                        </div>
+
+                        <div class="search-filter">
+                            <input type="text" id="searchEngin" placeholder="Rechercher...">
+                            <select id="filterEnginType">
+                                <option value="">Tous les types</option>
+                                <option value="Grue mobile">Grue mobile</option>
+                                <option value="Nacelle">Nacelle</option>
+                                <option value="Chariot">Chariot élévateur</option>
+                                <option value="Poste soudure">Poste à souder</option>
+                            </select>
+                        </div>
+
+                        <div id="enginsTable" class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Désignation</th>
+                                        <th>Type</th>
+                                        <th>Numéro Série</th>
+                                        <th>Marque</th>
+                                        <th>Opérateur</th>
+                                        <th>État</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="enginsList">
+                                    <tr><td colspan="7" class="empty">Aucun engin</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Sous-traitants -->
+                    <section id="sous-traitants" class="page">
+                        <div class="page-header">
+                            <h2>Sous-traitants</h2>
+                            <button class="btn btn-primary" id="addSTBtn">➕ Ajouter</button>
+                        </div>
+
+                        <div class="search-filter">
+                            <input type="text" id="searchST" placeholder="Rechercher...">
+                        </div>
+
+                        <div id="stTable" class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nom Entreprise</th>
+                                        <th>Spécialité</th>
+                                        <th>Responsable</th>
+                                        <th>Téléphone</th>
+                                        <th>Effectif</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="stList">
+                                    <tr><td colspan="7" class="empty">Aucun sous-traitant</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Accès & Badges -->
+                    <section id="acces" class="page">
+                        <div class="page-header">
+                            <h2>Accès & Badges</h2>
+                            <button class="btn btn-primary" id="addBadgeBtn">➕ Ajouter</button>
+                        </div>
+
+                        <div class="search-filter">
+                            <input type="text" id="searchBadge" placeholder="Rechercher...">
+                            <select id="filterZone">
+                                <option value="">Toutes les zones</option>
+                                <option value="Soudure">Zone Soudure</option>
+                                <option value="Montage">Zone Montage</option>
+                                <option value="Engins">Zone Engins Lourds</option>
+                                <option value="Bureau">Bureau</option>
+                            </select>
+                        </div>
+
+                        <div id="badgesTable" class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Employé</th>
+                                        <th>Numéro Badge</th>
+                                        <th>Type</th>
+                                        <th>Zone Autorisée</th>
+                                        <th>Date Validité</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="badgesList">
+                                    <tr><td colspan="7" class="empty">Aucun badge</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Export -->
+                    <section id="export" class="page">
+                        <div class="export-container">
+                            <h2>📥 Export Données</h2>
+                            
+                            <div class="export-grid">
+                                <div class="export-card">
+                                    <h3>👷 Employés</h3>
+                                    <p>Télécharger la liste complète des employés</p>
+                                    <button class="btn btn-success" onclick="exportToExcel('employes')">
+                                        📊 Excel
+                                    </button>
+                                    <button class="btn btn-info" onclick="exportToPDF('employes')">
+                                        📄 PDF
+                                    </button>
+                                </div>
+
+                                <div class="export-card">
+                                    <h3>📋 Habilitations</h3>
+                                    <p>Exporter toutes les certifications</p>
+                                    <button class="btn btn-success" onclick="exportToExcel('habilitations')">
+                                        📊 Excel
+                                    </button>
+                                    <button class="btn btn-info" onclick="exportToPDF('habilitations')">
+                                        📄 PDF
+                                    </button>
+                                </div>
+
+                                <div class="export-card">
+                                    <h3>🚜 Engins</h3>
+                                    <p>Liste des machines et équipements</p>
+                                    <button class="btn btn-success" onclick="exportToExcel('engins')">
+                                        📊 Excel
+                                    </button>
+                                    <button class="btn btn-info" onclick="exportToPDF('engins')">
+                                        📄 PDF
+                                    </button>
+                                </div>
+
+                                <div class="export-card">
+                                    <h3>🤝 Sous-traitants</h3>
+                                    <p>Exporter les partenaires</p>
+                                    <button class="btn btn-success" onclick="exportToExcel('sous-traitants')">
+                                        📊 Excel
+                                    </button>
+                                    <button class="btn btn-info" onclick="exportToPDF('sous-traitants')">
+                                        📄 PDF
+                                    </button>
+                                </div>
+
+                                <div class="export-card">
+                                    <h3>🔑 Badges</h3>
+                                    <p>Exporter les accès</p>
+                                    <button class="btn btn-success" onclick="exportToExcel('badges')">
+                                        📊 Excel
+                                    </button>
+                                    <button class="btn btn-info" onclick="exportToPDF('badges')">
+                                        📄 PDF
+                                    </button>
+                                </div>
+
+                                <div class="export-card">
+                                    <h3>📊 Rapport Complet</h3>
+                                    <p>Export global tous modules</p>
+                                    <button class="btn btn-warning" onclick="exportCompletReport()">
+                                        📑 Rapport
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <!-- Modal Form -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="modalTitle">Form</h2>
+                <form id="dynamicForm" class="form">
+                    <div id="formFields"></div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        localStorage.setItem('SUPABASE_URL', 'https://mjvtsdjwptsheflikftq.supabase.co');
+        localStorage.setItem('SUPABASE_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1qdnRzZGp3cHRzaGVmbGxrZnRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczODIyNDcsImV4cCI6MjA5Mjk1ODI0N30.aMtrRj3BVY1HnmHvlAgcIvNg0hiUiwigCSrqvsercps');
+    </script>
+    <script src="app-with-supabase.js"></script>
+</body>
+</html>
